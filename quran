@@ -1,0 +1,27 @@
+#!/bin/bash
+lang=$1
+surah=$2
+search=$3
+dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+if [ $# = 1 ] && [ $lang = "-l" ];then
+  exec ls $dir/eng/ 
+elif [ $# = 1 ];then
+  if [[ -f $dir/eng/$lang ]];then
+		exec less $dir/eng/$lang
+  elif [[ -f $dir/tur/$lang  ]];then
+		exec less $dir/tur/$lang
+  elif [[ -f $dir/ara/$lang  ]];then
+		exec less $dir/ara/$lang
+	fi
+elif [ $# = 2 ];then
+  exec less $dir/$lang/$surah
+elif [ $# = 3 ];then
+  exec less -I -p $search $dir/$lang/$surah
+else
+  echo "USAGE:"
+  echo "quran <Language> <Surah (First word after 'the' or 'al')> <Word to search (Optional)>"
+  echo "quran <Language> -l to list all the surahs"
+fi
+
+
